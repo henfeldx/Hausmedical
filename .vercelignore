@@ -1,6 +1,4 @@
 .claude
 node_modules
 *.md
-!index.html
-pesquisa-concorrentes-hausmedical.md
-prompt-site-hausmedical.md
+docs
