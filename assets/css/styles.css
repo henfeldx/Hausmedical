@@ -198,9 +198,9 @@ a, button, [role="button"], .cat-card, .seg-card, .product-card { cursor: pointe
 }
 .topbar a { color: #fff; font-weight: 600; }
 .topbar a:hover { color: var(--color-secondary); }
-.header-inner { display: flex; align-items: center; gap: .5rem; padding: .55rem 0; }
-.logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; flex: 1; min-width: 0; }
-.logo svg, .logo .logo-symbol { width: 36px; height: 36px; flex-shrink: 0; object-fit: contain; }
+.header-inner { display: flex; align-items: center; gap: .5rem; padding: .55rem .5rem; }
+.logo { display: flex; align-items: center; gap: .55rem; text-decoration: none; flex: 1; min-width: 0; padding-left: .25rem; }
+.logo svg, .logo .logo-symbol { width: 38px; height: 38px; flex-shrink: 0; object-fit: contain; }
 .logo-text { display: flex; flex-direction: column; line-height: 1; min-width: 0; }
 .logo-name { font-family: var(--font-heading); font-weight: 800; color: var(--color-primary); font-size: .95rem; letter-spacing: .02em; white-space: nowrap; }
 .logo-sub { font-size: .52rem; color: var(--color-muted); letter-spacing: .16em; text-transform: uppercase; margin-top: 3px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
