@@ -27,18 +27,32 @@ function productIcon(category) {
     mesas: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 28h52M14 28v22M50 28v22M20 20l6-6h12l6 6"/></svg>',
     cadeiras: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="46" r="12"/><circle cx="26" cy="46" r="4"/><path d="M26 34V16h10l4 12"/><path d="M40 28h8"/><circle cx="52" cy="54" r="3"/></svg>',
     biombos: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12v40M22 8v48M42 8v48M56 12v40"/><path d="M8 12l14-4M22 8l20 4M42 12l14-4"/></svg>',
-    suportes: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6v40M20 12h24M20 18h24M22 46l-6 10M42 46l6 10"/><circle cx="12" cy="58" r="3"/><circle cx="52" cy="58" r="3"/></svg>'
+    suportes: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6v40M20 12h24M20 18h24M22 46l-6 10M42 46l6 10"/><circle cx="12" cy="58" r="3"/><circle cx="52" cy="58" r="3"/></svg>',
+    escritorio: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22h28v18H18z"/><path d="M22 40v14M42 40v14M18 22V14a6 6 0 0 1 6-6h16a6 6 0 0 1 6 6v8"/></svg>',
+    epi: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8c0-2 2-4 4-4s4 2 4 4v20"/><path d="M26 12c0-2 2-4 4-4s4 2 4 4v16"/><path d="M34 14c0-2 2-4 4-4s4 2 4 4v14"/><path d="M42 20c0-2 2-4 4-4s4 2 4 4v22c0 8-6 14-14 14H26c-6 0-10-4-10-10V22c0-2 1-4 2-4"/></svg>'
   };
   return icons[category] || icons.camas;
+}
+
+function productImageHTML(p, opts) {
+  opts = opts || {};
+  const cls = opts.class || '';
+  if (p.image) {
+    return `<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" class="${cls}">`;
+  }
+  return productIcon(p.category);
 }
 
 const WA_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>';
 
 function productCardHTML(p) {
+  const media = p.image
+    ? `<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async">`
+    : productIcon(p.category);
   return `<article class="product-card">
-    <a href="produto.html?p=${p.slug}" class="product-image" aria-label="${p.name}">
+    <a href="produto.html?p=${p.slug}" class="product-image${p.image ? ' product-image-photo' : ''}" aria-label="${p.name}">
       ${p.estoque ? '<span class="product-badge">Em estoque</span>' : ''}
-      ${productIcon(p.category)}
+      ${media}
     </a>
     <div class="product-body">
       <div class="product-cat">${p.categoryLabel}</div>
@@ -59,21 +73,21 @@ function renderCatalog() {
   const grid = document.getElementById('product-grid');
   if (!grid) return;
   const params = new URLSearchParams(location.search);
-  const cat = params.get('cat');
+  const urlCat = params.get('cat');
   const seg = params.get('seg');
   const search = document.getElementById('search-input')?.value.toLowerCase().trim();
   const sortBy = document.getElementById('sort-select')?.value || 'relevance';
   const checked = sel => Array.from(document.querySelectorAll(sel + ':checked')).map(i => i.value);
+  const cats = checked('input[name="cat"]');
   const materials = checked('input[name="material"]');
-  const motors = checked('input[name="motor"]');
   const somenteEstoque = document.getElementById('filter-stock')?.checked;
 
   let list = window.HAUS_PRODUCTS.slice();
-  if (cat) list = list.filter(p => p.category === cat);
+  if (urlCat) list = list.filter(p => p.category === urlCat);
   if (seg) list = list.filter(p => p.segment.includes(seg));
+  if (cats.length) list = list.filter(p => cats.includes(p.category));
   if (search) list = list.filter(p => (p.name + ' ' + p.sku + ' ' + p.desc).toLowerCase().includes(search));
   if (materials.length) list = list.filter(p => materials.includes(p.material));
-  if (motors.length) list = list.filter(p => motors.includes(p.motor));
   if (somenteEstoque) list = list.filter(p => p.estoque);
   if (sortBy === 'name') list.sort((a,b) => a.name.localeCompare(b.name));
   else if (sortBy === 'prazo') list.sort((a,b) => (a.estoque === b.estoque ? 0 : a.estoque ? -1 : 1));
@@ -95,8 +109,11 @@ function renderProductDetail() {
   document.title = `${p.name} — Hausmedical`;
   document.getElementById('crumb-product').textContent = p.name;
   const specsHTML = Object.entries(p.specs).filter(([k]) => !/garantia/i.test(k)).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  const gallery = p.image
+    ? `<img src="${p.image}" alt="${p.name}" loading="eager" decoding="async">`
+    : productIcon(p.category);
   el.innerHTML = `
-    <div class="product-gallery">${productIcon(p.category)}</div>
+    <div class="product-gallery${p.image ? ' product-gallery-photo' : ''}">${gallery}</div>
     <div class="product-info">
       <div class="product-cat">${p.categoryLabel}</div>
       <h1>${p.name}</h1>
@@ -117,15 +134,26 @@ function renderProductDetail() {
   if (rel) rel.innerHTML = related.map(productCardHTML).join('');
 }
 
+function categoryPreviewImage(catSlug) {
+  const p = (window.HAUS_PRODUCTS || []).find(x => x.category === catSlug && x.image);
+  return p ? p.image : null;
+}
+
 function renderCategoryGrid(selector, limit) {
   const el = document.querySelector(selector);
   if (!el) return;
   const cats = (window.HAUS_CATEGORIES || []).slice(0, limit || 8);
-  el.innerHTML = cats.map(c => `<a class="cat-card" href="produtos.html?cat=${c.slug}">
-    <div class="cat-icon">${productIcon(c.slug)}</div>
-    <h3>${c.label}</h3>
-    <span>Ver produtos →</span>
-  </a>`).join('');
+  el.innerHTML = cats.map(c => {
+    const img = categoryPreviewImage(c.slug);
+    const visual = img
+      ? `<div class="cat-icon cat-icon-photo"><img src="${img}" alt="" loading="lazy" decoding="async"></div>`
+      : `<div class="cat-icon">${productIcon(c.slug)}</div>`;
+    return `<a class="cat-card" href="produtos.html?cat=${c.slug}">
+      ${visual}
+      <h3>${c.label}</h3>
+      <span>Ver produtos →</span>
+    </a>`;
+  }).join('');
 }
 
 function renderFeaturedProducts(selector, limit) {
@@ -222,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
   markActiveNav();
   renderCatalog();
   renderProductDetail();
-  renderCategoryGrid('[data-render="categories"]');
+  renderCategoryGrid('[data-render="categories"]', 10);
   renderFeaturedProducts('[data-render="featured"]', 6);
   requestAnimationFrame(attachScrollReveal);
 

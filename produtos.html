@@ -8,7 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=11">
+<link rel="stylesheet" href="assets/css/styles.css?v=13">
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/img/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
 </head>
 <body>
 <header class="site-header" id="site-header"></header>
@@ -30,13 +33,20 @@
         <div class="filters-body">
         <h4>Busca</h4>
         <input id="search-input" type="search" placeholder="Buscar produto ou SKU">
+        <h4>Categoria</h4>
+        <label><input type="checkbox" name="cat" value="camas"> Camas Hospitalares</label>
+        <label><input type="checkbox" name="cat" value="macas"> Macas</label>
+        <label><input type="checkbox" name="cat" value="carrinhos"> Carrinhos</label>
+        <label><input type="checkbox" name="cat" value="armarios"> Armários e Gaveteiros</label>
+        <label><input type="checkbox" name="cat" value="mesas"> Mesas Cirúrgicas</label>
+        <label><input type="checkbox" name="cat" value="cadeiras"> Cadeiras e Poltronas</label>
+        <label><input type="checkbox" name="cat" value="biombos"> Biombos</label>
+        <label><input type="checkbox" name="cat" value="suportes"> Suportes e Acessórios</label>
+        <label><input type="checkbox" name="cat" value="escritorio"> Móveis de Escritório</label>
+        <label><input type="checkbox" name="cat" value="epi"> EPI Hospitalar</label>
         <h4>Material</h4>
         <label><input type="checkbox" name="material" value="inox"> Aço inox 304</label>
         <label><input type="checkbox" name="material" value="aco-epoxi"> Aço com pintura epóxi</label>
-        <h4>Motorização</h4>
-        <label><input type="checkbox" name="motor" value="manual"> Manual</label>
-        <label><input type="checkbox" name="motor" value="eletrica"> Elétrica</label>
-        <label><input type="checkbox" name="motor" value="hidraulica"> Hidráulica</label>
         <h4>Disponibilidade</h4>
         <label><input type="checkbox" id="filter-stock"> Somente em estoque em Manaus</label>
         </div>
@@ -60,8 +70,8 @@
 </section>
 
 <footer class="site-footer" id="site-footer"></footer>
-<script src="assets/js/products.js?v=7"></script>
+<script src="assets/js/products.js?v=8"></script>
 <script src="assets/js/partials.js?v=6"></script>
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/main.js?v=9"></script>
 </body>
 </html>
