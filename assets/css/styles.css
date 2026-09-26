@@ -184,7 +184,7 @@ a, button, [role="button"], .cat-card, .seg-card, .product-card { cursor: pointe
   border-bottom: 1px solid var(--color-neutral);
   position: sticky;
   top: 0;
-  z-index: var(--z-sticky);
+  z-index: 200;
   padding-top: env(safe-area-inset-top, 0);
 }
 .topbar { background: var(--color-primary-dark); color: #dbe6ef; font-size: .78rem; padding: .45rem 0; }
@@ -1088,12 +1088,12 @@ form.stack { display: flex; flex-direction: column; gap: .95rem; }
   position: fixed;
   inset: 0;
   background: rgba(15,39,64,.5);
-  z-index: 105;
+  z-index: 190;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur) var(--ease);
 }
-.overlay { z-index: 150; }
+.overlay { z-index: 250; }
 .overlay.show, .nav-backdrop.show { opacity: 1; pointer-events: auto; }
 
 /* Toast */
