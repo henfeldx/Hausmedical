@@ -596,7 +596,8 @@ a, button, [role="button"], .cat-card, .seg-card, .product-card { cursor: pointe
   margin-top: 2rem;
   opacity: .8;
 }
-.logo-strip .client-logo {
+.logo-strip .client-logo,
+.logo-marquee .client-logo {
   font-family: var(--font-heading);
   font-weight: 700;
   color: var(--color-muted);
@@ -605,6 +606,43 @@ a, button, [role="button"], .cat-card, .seg-card, .product-card { cursor: pointe
   padding: .35rem .7rem;
   border: 1px dashed var(--color-neutral);
   border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Rotating marquee for client hospitals */
+.logo-marquee {
+  overflow: hidden;
+  margin-top: 2rem;
+  padding: .5rem 0;
+  position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.logo-track {
+  display: flex;
+  gap: .75rem;
+  width: max-content;
+  animation: logoScroll 32s linear infinite;
+  will-change: transform;
+}
+.logo-marquee:hover .logo-track { animation-play-state: paused; }
+@keyframes logoScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-track { animation: none; }
+}
+
+/* Third card centered when card-grid-2 receives 3 items */
+@media (min-width: 640px) {
+  .grid-third-center > :nth-child(3):last-child {
+    grid-column: 1 / -1;
+    max-width: calc(50% - .625rem);
+    justify-self: center;
+    width: 100%;
+  }
 }
 
 /* ============================================================
